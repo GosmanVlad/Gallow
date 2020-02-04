@@ -7,6 +7,7 @@
 #include <cstring>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
+#include <ctime>
 #include "defines.hpp"
 #include "structures.hpp"
 #include "draws.hpp"

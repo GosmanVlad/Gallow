@@ -1,8 +1,6 @@
 #include "headers.hpp"
 #include "classes.hpp"
 //-------------------------------------------//
-ifstream lfin("cuvinte.txt"); //Dificultate mica
-ifstream mfin("cuvinte_dificile.txt"); //Dificultate medie
 //-------------------------------------------//
 bool verificaLitera(RenderWindow &window, char literaSelectata, string Word) {
     char fWord[Word.size() + 1];
@@ -16,17 +14,21 @@ void LoadWord() {
     int pozitie;
     char cuvantAux[255];
     srand(time(NULL));
-    int i = rand()%10 + 1;
+    int i = rand()%52;
+    //--------------------------//
+    ifstream lfin("cuvinte.txt"); //Dificultate mica
+    ifstream mfin("cuvinte_dificile.txt"); //Dificultate medie
     //--------------------------//
     memset(cuvant, 0, 256);
     //-------------------------//
-    for(int j = 1; j<=i; j++)
+    for(int j = 0; j<i; j++)
     {
         if(setari.dificultate == 0)
             lfin>>loadWord;
         else
             mfin>>loadWord;
     }
+    setari.dificultate == 0 ? lfin.close() : mfin.close();
     strcpy(domeniu, loadWord.c_str());
     strcpy(cuvantAux, domeniu);
     //---------------------------------//
@@ -414,7 +416,7 @@ void GameOver(Music &muzica) {
     }
 }
 
-void Settings(Music &muzica, Font font) {
+void Settings(Music &muzica, Font &font) {
     int selectie = 0;
     RenderWindow settings( VideoMode(Lungime_Meniu, Inaltime_Meniu), "Setari - spanzuratoarea" );
     settings.setKeyRepeatEnabled( false );
@@ -588,18 +590,24 @@ void MeniuPrincipal(Music &muzica) {
             else if(event.type == Event::KeyPressed)
             {
                 if(event.key.code == Keyboard::Up)
+                {
                     if(selectie == 0)
                         selectie = 2;
                     else
                         selectie--;
+                }
                 else if(event.key.code == Keyboard::Down)
+                {
                     if(selectie == 2)
                         selectie = 0;
                     else selectie++;
+                }
                 if(event.key.code == Keyboard::Enter)
+                {
                     if(selectie == 0) { initialmenu.close(); StartGame(muzica); }
                     else if(selectie == 1) { initialmenu.close(); Settings(muzica, font); }
                     else if(selectie == 2) initialmenu.close();
+                }
             }
         }
         if(selectie == 0)
