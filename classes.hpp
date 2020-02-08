@@ -20,6 +20,7 @@ public:
         text.setString(t);
         text.setColor(Color::Red);
     }
+
     void setFont(Font &font) {
         text.setFont(font);
     }
@@ -63,6 +64,11 @@ public:
 private:
     Text text;
     RectangleShape button;
+};
+
+struct Buttons{
+    Button text;
+    bool isDisable = false;
 };
 //-----------------------------//
 #endif

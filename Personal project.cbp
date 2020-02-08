@@ -56,9 +56,6 @@
 		<Unit filename="drawman.cpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>
-		<Unit filename="drawman.hpp">
-			<Option target="&lt;{~None~}&gt;" />
-		</Unit>
 		<Unit filename="headers.hpp">
 			<Option target="&lt;{~None~}&gt;" />
 		</Unit>

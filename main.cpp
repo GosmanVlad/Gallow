@@ -57,7 +57,7 @@ void StartGame(Music &muzica) {
     int literePerRand = 1;
     int greseli = 0, spatiuLitereGresite = 30; //MAXIM 6 greseli
     char primaInitiala;
-    Button ch[27]; //0-25 sunt litere, butonul 26 = Inapoi la meniu
+    Buttons ch[27]; //0-25 sunt litere, butonul 26 = Inapoi la meniu
 
     Font font;
     font.loadFromFile("Fonts/arial.ttf");
@@ -122,34 +122,34 @@ void StartGame(Music &muzica) {
     RectangleShape body(Vector2f(160, 2));         RectangleShape rightHand(Vector2f(50, 2));
     RectangleShape leftFoot(Vector2f(50, 2));      RectangleShape rightFoot(Vector2f(50, 2));
     //---------------------------------------------------------------------------------//
-    ch[26].buttonSet('<', {250, 50}, 25, Color::Red);
-    ch[26].buttonSetString("Inapoi la meniu");
-    ch[26].setPosition({590, 480});
-    ch[26].setFont(font);
+    ch[26].text.buttonSet('<', {250, 50}, 25, Color::Red);
+    ch[26].text.buttonSetString("Inapoi la meniu");
+    ch[26].text.setPosition({590, 480});
+    ch[26].text.setFont(font);
     //---------------------------------------------------------------------------------//
     for(int i=0;i<26;i++)
     {
         if(literePerRand <= 10)
         {
-            ch[i].buttonSet(l, {50, 50}, 30, Color::White);
-            ch[i].setPosition({k, 330});
-            ch[i].setFont(font);
+            ch[i].text.buttonSet(l, {50, 50}, 30, Color::White);
+            ch[i].text.setPosition({k, 330});
+            ch[i].text.setFont(font);
         }
         else if(literePerRand <= 20)
         {
             if(k == 550)
                 k=50;
-            ch[i].buttonSet(l, {50, 50}, 30, Color::White);
-            ch[i].setPosition({k, 390});
-            ch[i].setFont(font);
+            ch[i].text.buttonSet(l, {50, 50}, 30, Color::White);
+            ch[i].text.setPosition({k, 390});
+            ch[i].text.setFont(font);
         }
         else
         {
             if(k == 550)
                 k = 50;
-            ch[i].buttonSet(l, {50, 50}, 30, Color::White);
-            ch[i].setPosition({k, 450});
-            ch[i].setFont(font);
+            ch[i].text.buttonSet(l, {50, 50}, 30, Color::White);
+            ch[i].text.setPosition({k, 450});
+            ch[i].text.setFont(font);
         }
         k+=50;
         l++;
@@ -166,31 +166,33 @@ void StartGame(Music &muzica) {
             if(event.type == Event::MouseMoved)
             {
                 for(int i=0;i<26;i++){
-                    if(ch[i].isMouseOver(play)){
-                        ch[i].setBGColor(Color::Red);
+                    if(ch[i].text.isMouseOver(play) && ch[i].isDisable == false){
+                        ch[i].text.setBGColor(Color::Red);
                     }
-                    else ch[i].setBGColor(Color::White);
+                    else
+                        ch[i].isDisable ? ch[i].text.setBGColor(Color(10, 10, 10)) : ch[i].text.setBGColor(Color::White);
                 }
-                if(ch[26].isMouseOver(play))
-                    ch[26].setBGColor(Color::White);
+                if(ch[26].text.isMouseOver(play))
+                    ch[26].text.setBGColor(Color::White);
                 else
-                    ch[26].setBGColor(Color::Red);
+                    ch[26].text.setBGColor(Color::Red);
             }
             if(event.type == Event::MouseButtonPressed){
                 for(int i=0;i<26;i++)
                 {
-                    if(ch[i].isMouseOver(play))
+                    if(ch[i].text.isMouseOver(play) && ch[i].isDisable == false)
                     {
                         literaSelectata = 65 + i; //ASCII 65 = A, 65 + 1 = B
                         if(verificaLitera(play, literaSelectata, cuvantString) && literaSelectata != primaInitiala)
                         {
-                            for(int i=1;i<strlen(cuvant);i++)
+                            for(int j=1;j<strlen(cuvant);j++)
                             {
-                                if(literaSelectata == cuvant[i])
+                                if(literaSelectata == cuvant[j])
                                 {
-                                    cuvantCorect[contorLitere].setPosition({spatiiCuvinte * (i+1)}, {200});
+                                    cuvantCorect[contorLitere].setPosition({spatiiCuvinte * (j+1)}, {200});
                                     cuvantCorect[contorLitere].setString(literaSelectata);
                                     contorLitere++;
+                                    ch[i].isDisable = true;
                                 }
                             }
                             if(contorLitere == strlen(cuvant))
@@ -222,7 +224,7 @@ void StartGame(Music &muzica) {
                         }
                     }
                 }
-                if(ch[26].isMouseOver(play)){
+                if(ch[26].text.isMouseOver(play)){
                     play.close();
                     MeniuPrincipal(muzica);
                 }
@@ -231,7 +233,7 @@ void StartGame(Music &muzica) {
         }
         play.display();
         //---------------------------------------//
-        for(int i=0;i<27;i++) ch[i].drawTo(play);
+        for(int i=0;i<27;i++) ch[i].text.drawTo(play);
         for(int i=0;i<2;i++) play.draw(Domeniu[i]);
         for(int i=0;i<6;i++)  play.draw(wrongs[i]);
         for(int i=0;i<contorLitere;i++){ play.draw(cuvantCorect[i]); }

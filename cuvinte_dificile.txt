@@ -31,3 +31,5 @@ Vechi:RUSTIC
 Margine:PERIFERIE
 Cadou:MOSCRACIUN
 Electric:TESLA
+Familie:LOGODNA
+Magazin:CASIER
